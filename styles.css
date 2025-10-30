@@ -1,0 +1,493 @@
+/* --- Estructura general para que el footer quede abajo --- */
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  color: #ff0000;
+  overflow-x: hidden;
+  background: #fff;
+}
+
+/* Ensure content takes up available space to push footer down */
+.content {
+  flex: 1 0 auto; /* Grow to fill space, don't shrink, auto basis */
+  padding: 20px;
+  text-align: center;
+  background: #fff;
+}
+
+/* --- Carrusel --- */
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 100%; /* Ocupa todo el ancho disponible */
+  margin: 20px 0; /* Margen arriba y abajo */
+  overflow: hidden;
+  border: 2px solid #ff0000;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+  z-index: 1; /* Debajo del header (z-index: 1001) */
+  box-sizing: border-box;
+}
+
+.carousel-container {
+  display: flex;
+  width: 100%;
+  transition: transform 0.5s ease;
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  position: relative;
+  display: none; /* Oculta todos los slides por defecto */
+}
+
+.carousel-slide.active {
+  display: block; /* Muestra el slide activo */
+}
+
+/* Fallback para el primer slide si JavaScript falla */
+.carousel-slide:first-child {
+  display: block;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: auto;
+  max-height: 512px; /* Limita la altura para proporción 1920x512 */
+  aspect-ratio: 1920 / 512; /* Forzar proporción */
+  object-fit: cover; /* Mantiene proporciones */
+  border-radius: 8px;
+  display: block;
+}
+
+.carousel-caption {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  border-radius: 6px;
+  color: #fff;
+  max-width: 60%;
+}
+
+.carousel-caption h3 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #ff4d4d;
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.7);
+}
+
+.carousel-caption p {
+  margin: 5px 0;
+  font-size: 0.9em;
+}
+
+.carousel-link {
+  display: inline-block;
+  color: #ff0000;
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.carousel-link:hover {
+  background: #ffeeee;
+}
+
+.carousel-prev, .carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  font-size: 1.2em;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+  z-index: 2; /* Asegura que los botones estén encima del slide */
+}
+
+.carousel-prev:hover, .carousel-next:hover {
+  background: #ff4d4d;
+}
+
+.carousel-prev {
+  left: 10px;
+}
+
+.carousel-next {
+  right: 10px;
+}
+
+.carousel-dots {
+  text-align: center;
+  padding: 8px 0;
+}
+
+.carousel-dots .dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 4px;
+  background: #ddd;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.carousel-dots .dot.active {
+  background: #ff0000;
+}
+
+/* --- Responsive Carrusel --- */
+@media (max-width: 768px) {
+  .carousel {
+    max-width: 90%;
+    margin: 10px auto;
+  }
+  .carousel-slide img {
+    max-height: 256px; /* Menor altura en móviles */
+    aspect-ratio: 1920 / 512;
+  }
+  .carousel-caption {
+    max-width: 80%;
+    padding: 8px;
+  }
+  .carousel-caption h3 {
+    font-size: 1.2em;
+  }
+  .carousel-caption p {
+    font-size: 0.8em;
+  }
+  .carousel-link {
+    padding: 5px 10px;
+    font-size: 0.9em;
+  }
+}
+
+/* --- Header animado --- */
+.animated-header {
+  position: fixed;
+  top: -200px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background: #ff0000;
+  border: 2px solid #ff0000;
+  z-index: 1001;
+  transition: top 1s ease;
+  box-sizing: border-box;
+}
+
+.animated-header.active {
+  top: 0;
+}
+
+.logo {
+  max-width: 120px;
+  height: auto;
+}
+
+/* --- Navegación --- */
+.nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2em;
+  white-space: nowrap;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 4px;
+  bottom: -5px;
+  left: 0;
+  background-color: #fff;
+  transition: width 0.3s ease;
+}
+
+.nav a:hover::after {
+  width: 100%;
+}
+
+.nav a:hover {
+  transform: scale(1.1);
+  color: #ffeeee;
+}
+
+/* --- Responsive Header --- */
+@media (max-width: 768px) {
+  .animated-header {
+    padding: 10px;
+  }
+  .logo {
+    max-width: 80px;
+  }
+  .nav {
+    gap: 5px;
+  }
+  .nav a {
+    font-size: 0.9em;
+    margin: 0 2px;
+  }
+  .nav a:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* --- Sección Projects/Games --- */
+.projects-section {
+  margin-top: 40px;
+}
+
+.projects-section h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #ff0000;
+}
+
+.game-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 85%;
+  margin: 0 auto;
+}
+
+.game-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  background: #0d0d0d;
+  border: 2px solid #ff0000;
+  border-radius: 10px;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+}
+
+.game-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
+}
+
+.game-cover {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.game-cover:hover {
+  transform: scale(1.05);
+}
+
+.game-info {
+  text-align: left;
+  color: #fff;
+}
+
+.game-info h3 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #ff4d4d;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+}
+
+.game-info p {
+  margin: 5px 0;
+  font-size: 1em;
+  color: #ddd;
+}
+
+/* --- Responsive Games --- */
+@media (max-width: 768px) {
+  .game-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  .game-cover {
+    width: 100%;
+    height: auto;
+  }
+  .game-info {
+    text-align: center;
+  }
+}
+
+/* --- Sección About --- */
+.about-section {
+  margin-top: 40px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  border: 2px solid #ff0000;
+}
+
+.about-section h2 {
+  font-size: 2em;
+  margin-bottom: 15px;
+  color: #ff0000;
+}
+
+.about-section p {
+  font-size: 1em;
+  line-height: 1.5;
+  max-width: 600px;
+  margin: 0 auto;
+  color: #ff0000;
+}
+
+@media (max-width: 768px) {
+  .about-section {
+    padding: 15px;
+  }
+  .about-section p {
+    font-size: 0.9em;
+  }
+}
+
+/* --- Redes Sociales --- */
+.social-section {
+  margin-top: 50px;
+  padding: 20px;
+}
+
+.social-section h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #ff0000;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+}
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: #0d0d0d;
+  color: #fff;
+  font-size: 1em;
+  text-decoration: none;
+  border: 2px solid #ff0000;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+}
+
+.social-btn i {
+  font-size: 1.2em;
+  color: #ff4d4d;
+}
+
+.social-btn:hover {
+  background: #ff0000;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+}
+
+.social-btn:hover i {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .social-links {
+    flex-direction: column;
+    align-items: center;
+  }
+  .social-btn {
+    width: 80%;
+    justify-content: center;
+  }
+}
+
+/* --- Footer --- */
+.site-footer {
+  background: #ff0000;
+  color: #fff;
+  padding: 20px 40px;
+  flex-shrink: 0; /* Prevent footer from shrinking */
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 2; /* Ensure footer is above content */
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-left {
+  font-size: 0.9em;
+}
+
+.footer-left a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 5px;
+  transition: opacity 0.3s ease;
+}
+
+.footer-left a:hover {
+  opacity: 0.8;
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-logo {
+  max-width: 100px;
+  height: auto;
+  filter: drop-shadow(0 0 8px rgba(0,0,0,0.4));
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  .footer-right {
+    justify-content: center;
+  }
+}
